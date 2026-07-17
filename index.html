@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yasser Sultan — Front-End Developer &amp; E-Commerce Growth</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#0F1620;
+    --navy-2:#171F2C;
+    --card:#1B2532;
+    --line:#2A3543;
+    --paper:#F3EFE6;
+    --paper-dim:#C9C2B4;
+    --amber:#E8A33D;
+    --mint:#4FD1B8;
+    --text:#EDEAE1;
+    --text-dim:#9FA8B4;
+    --radius:2px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--navy);
+    color:var(--text);
+    font-family:'Inter', sans-serif;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,.display{ font-family:'Space Grotesk', sans-serif; }
+  .mono{ font-family:'IBM Plex Mono', monospace; }
+  a{ color:inherit; }
+  ::selection{ background:var(--amber); color:var(--navy); }
+
+  .wrap{ max-width:1120px; margin:0 auto; padding:0 32px; }
+
+  /* NAV */
+  header.nav{
+    position:fixed; top:0; left:0; right:0; z-index:50;
+    background:rgba(15,22,32,0.85); backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-inner{
+    max-width:1120px; margin:0 auto; padding:16px 32px;
+    display:flex; align-items:center; justify-content:space-between;
+  }
+  .nav-brand{ font-weight:700; font-size:15px; letter-spacing:0.02em; }
+  .nav-brand span{ color:var(--amber); }
+  .nav-links{ display:flex; gap:28px; list-style:none; font-size:13px; }
+  .nav-links a{
+    text-decoration:none; color:var(--text-dim); font-family:'IBM Plex Mono',monospace;
+    letter-spacing:0.03em; transition:color .2s;
+  }
+  .nav-links a:hover{ color:var(--amber); }
+  .nav-links .tag-num{ color:var(--mint); margin-right:4px; }
+
+  /* HERO */
+  .hero{
+    padding:168px 0 96px;
+    border-bottom:1px solid var(--line);
+    position:relative;
+    overflow:hidden;
+  }
+  .hero::before{
+    content:"";
+    position:absolute; inset:0;
+    background-image:
+      radial-gradient(circle at 85% 15%, rgba(232,163,61,0.10), transparent 40%),
+      radial-gradient(circle at 5% 85%, rgba(79,209,184,0.10), transparent 45%);
+    pointer-events:none;
+  }
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:'IBM Plex Mono', monospace; font-size:12px;
+    color:var(--mint); letter-spacing:0.08em; text-transform:uppercase;
+    border:1px solid var(--line); padding:6px 12px; border-radius:999px;
+    margin-bottom:28px;
+  }
+  .eyebrow::before{ content:"●"; font-size:8px; color:var(--mint); }
+  .hero h1{
+    font-size:clamp(38px, 6vw, 68px);
+    font-weight:700;
+    letter-spacing:-0.02em;
+    line-height:1.05;
+    max-width:820px;
+  }
+  .hero h1 .accent{ color:var(--amber); }
+  .hero p.lede{
+    margin-top:24px; max-width:560px;
+    font-size:17px; color:var(--text-dim);
+  }
+  .role-tags{ display:flex; flex-wrap:wrap; gap:10px; margin-top:32px; }
+  .role-tag{
+    font-family:'IBM Plex Mono', monospace; font-size:12px;
+    padding:8px 14px; border:1px dashed var(--paper-dim);
+    color:var(--paper); position:relative; letter-spacing:0.02em;
+  }
+  .role-tag::before{ content:"—"; margin-right:6px; color:var(--amber); }
+
+  .hero-actions{ display:flex; gap:14px; margin-top:40px; flex-wrap:wrap; }
+  .btn{
+    font-family:'IBM Plex Mono', monospace; font-size:13px;
+    padding:13px 22px; border-radius:2px; text-decoration:none;
+    display:inline-flex; align-items:center; gap:8px; letter-spacing:0.02em;
+    transition:transform .15s ease, background .15s ease;
+  }
+  .btn-primary{ background:var(--amber); color:var(--navy); font-weight:600; }
+  .btn-primary:hover{ transform:translateY(-2px); }
+  .btn-ghost{ border:1px solid var(--line); color:var(--text); }
+  .btn-ghost:hover{ border-color:var(--mint); color:var(--mint); }
+
+  /* TICKER */
+  .ticker{
+    border-bottom:1px solid var(--line);
+    background:var(--navy-2);
+    overflow:hidden; white-space:nowrap;
+    padding:14px 0;
+  }
+  .ticker-track{
+    display:inline-flex; gap:48px;
+    animation:scroll 26s linear infinite;
+    font-family:'IBM Plex Mono', monospace; font-size:13px; color:var(--text-dim);
+  }
+  .ticker-track span b{ color:var(--amber); }
+  @keyframes scroll{ from{ transform:translateX(0);} to{ transform:translateX(-50%);} }
+  @media (prefers-reduced-motion: reduce){ .ticker-track{ animation:none; } }
+
+  /* SECTION generic */
+  section{ padding:96px 0; border-bottom:1px solid var(--line); }
+  .sec-head{ display:flex; align-items:baseline; gap:16px; margin-bottom:48px; }
+  .sec-head .num{ font-family:'IBM Plex Mono', monospace; color:var(--mint); font-size:13px; }
+  .sec-head h2{ font-size:30px; letter-spacing:-0.01em; }
+  .sec-sub{ color:var(--text-dim); max-width:620px; margin-top:12px; font-size:15px; }
+
+  /* ABOUT */
+  .about-grid{ display:grid; grid-template-columns:1.3fr 1fr; gap:56px; align-items:start; }
+  .about-grid p{ color:var(--text-dim); font-size:16px; margin-bottom:16px; }
+  .about-grid p strong{ color:var(--text); font-weight:600; }
+  .about-card{
+    background:var(--card); border:1px solid var(--line); padding:24px;
+    font-family:'IBM Plex Mono', monospace; font-size:13px;
+  }
+  .about-card .row{
+    display:flex; justify-content:space-between; padding:10px 0;
+    border-bottom:1px dashed var(--line); color:var(--text-dim);
+  }
+  .about-card .row:last-child{ border-bottom:none; }
+  .about-card .row span:last-child{ color:var(--text); }
+
+  /* EXPERIENCE — receipt style */
+  .receipt{
+    background:var(--paper); color:#1B1B18;
+    padding:32px; max-width:760px;
+    font-family:'IBM Plex Mono', monospace; font-size:13.5px;
+    box-shadow:0 20px 60px rgba(0,0,0,0.35);
+    background-image:repeating-linear-gradient(transparent, transparent 27px, rgba(0,0,0,0.05) 28px);
+  }
+  .receipt-head{ text-align:center; border-bottom:2px dashed #1B1B18; padding-bottom:16px; margin-bottom:16px; }
+  .receipt-head .r-title{ font-weight:700; font-size:16px; letter-spacing:0.06em; }
+  .receipt-head .r-sub{ font-size:11px; color:#5a5a52; margin-top:4px; }
+  .r-item{ padding:14px 0; border-bottom:1px dashed #b8b3a3; }
+  .r-item:last-child{ border-bottom:none; }
+  .r-item .r-row{ display:flex; justify-content:space-between; font-weight:600; }
+  .r-item .r-role{ font-size:14px; }
+  .r-item .r-date{ font-size:11px; color:#5a5a52; }
+  .r-item .r-co{ font-size:12px; color:#5a5a52; margin-top:2px; }
+  .r-item ul{ margin:10px 0 0 18px; font-size:12.5px; color:#2c2c28; }
+  .r-item li{ margin-bottom:5px; }
+  .receipt-foot{ border-top:2px dashed #1B1B18; margin-top:16px; padding-top:14px; display:flex; justify-content:space-between; font-size:12px; font-weight:700; }
+
+  /* PROJECTS */
+  .proj-grid{ display:grid; grid-template-columns:repeat(2, 1fr); gap:20px; }
+  .proj-card{
+    background:var(--card); border:1px solid var(--line);
+    padding:26px; position:relative; transition:border-color .2s, transform .2s;
+  }
+  .proj-card:hover{ border-color:var(--amber); transform:translateY(-3px); }
+  .proj-tagrow{ display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:14px; }
+  .proj-sku{ font-family:'IBM Plex Mono', monospace; font-size:11px; color:var(--text-dim); }
+  .proj-badge{
+    font-family:'IBM Plex Mono', monospace; font-size:10px; padding:4px 8px;
+    background:var(--amber); color:var(--navy); font-weight:700; letter-spacing:0.04em;
+  }
+  .proj-badge.live{ background:var(--mint); }
+  .proj-card h3{ font-size:19px; margin-bottom:8px; }
+  .proj-card p{ color:var(--text-dim); font-size:14px; margin-bottom:16px; }
+  .stack-row{ display:flex; flex-wrap:wrap; gap:6px; margin-bottom:16px; }
+  .stack-chip{
+    font-family:'IBM Plex Mono', monospace; font-size:10.5px;
+    border:1px solid var(--line); padding:4px 9px; color:var(--text-dim);
+  }
+  .proj-link{
+    font-family:'IBM Plex Mono', monospace; font-size:12px; color:var(--mint);
+    text-decoration:none; border-bottom:1px solid var(--mint); padding-bottom:2px;
+  }
+  .proj-link:hover{ color:var(--amber); border-color:var(--amber); }
+
+  /* SKILLS */
+  .skill-groups{ display:grid; grid-template-columns:repeat(3, 1fr); gap:32px; }
+  .skill-group h4{
+    font-family:'IBM Plex Mono', monospace; font-size:11px; text-transform:uppercase;
+    letter-spacing:0.08em; color:var(--amber); margin-bottom:14px;
+  }
+  .chip-row{ display:flex; flex-wrap:wrap; gap:8px; }
+  .chip{
+    font-size:12.5px; padding:7px 12px; background:var(--card);
+    border:1px solid var(--line); color:var(--text);
+  }
+
+  /* CONTACT */
+  .checkout{
+    background:var(--card); border:1px solid var(--line);
+    padding:48px; display:grid; grid-template-columns:1.2fr 1fr; gap:40px; align-items:center;
+  }
+  .checkout h2{ font-size:30px; margin-bottom:12px; }
+  .checkout p{ color:var(--text-dim); font-size:15px; max-width:420px; }
+  .contact-list{ font-family:'IBM Plex Mono', monospace; font-size:13.5px; }
+  .contact-list .row{
+    display:flex; justify-content:space-between; padding:12px 0; border-bottom:1px dashed var(--line);
+  }
+  .contact-list .row:last-child{ border-bottom:none; }
+  .contact-list .row span:first-child{ color:var(--text-dim); }
+  .contact-list .row a{ text-decoration:none; color:var(--text); }
+  .contact-list .row a:hover{ color:var(--amber); }
+
+  footer{ padding:32px 0; text-align:center; font-family:'IBM Plex Mono', monospace; font-size:12px; color:var(--text-dim); }
+
+  @media (max-width: 860px){
+    .nav-links{ display:none; }
+    .about-grid, .checkout{ grid-template-columns:1fr; }
+    .proj-grid{ grid-template-columns:1fr; }
+    .skill-groups{ grid-template-columns:1fr; }
+    section{ padding:64px 0; }
+    .hero{ padding:140px 0 64px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="nav-inner">
+    <div class="nav-brand">YASSER <span>SULTAN</span></div>
+    <ul class="nav-links">
+      <li><a href="#about"><span class="tag-num">01</span>About</a></li>
+      <li><a href="#experience"><span class="tag-num">02</span>Experience</a></li>
+      <li><a href="#projects"><span class="tag-num">03</span>Projects</a></li>
+      <li><a href="#skills"><span class="tag-num">04</span>Skills</a></li>
+      <li><a href="#contact"><span class="tag-num">05</span>Contact</a></li>
+    </ul>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Available for work · Cairo, Egypt</div>
+    <h1>Front-end code on one hand,<br>ad performance data on <span class="accent">the other.</span></h1>
+    <p class="lede">I build and ship e-commerce experiences — React/Next.js apps and Shopify storefronts — and I run the media buying that drives traffic to them. Same person handling both the pixel and the pixel-tracking.</p>
+    <div class="role-tags">
+      <div class="role-tag">Front-End Developer</div>
+      <div class="role-tag">Shopify &amp; Liquid</div>
+      <div class="role-tag">MERN Stack</div>
+      <div class="role-tag">Meta &amp; TikTok Media Buying</div>
+    </div>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="#contact">Get in touch →</a>
+      <a class="btn btn-ghost" href="#projects">View projects</a>
+    </div>
+  </div>
+</section>
+
+<div class="ticker">
+  <div class="ticker-track">
+    <span><b>GPA 3.88/4</b> — Biomedical Engineering, Mansoura University</span>
+    <span><b>4</b> internships &amp; training programs completed</span>
+    <span><b>ROAS · CTR · CPP</b> — performance tracked, not guessed</span>
+    <span>Meta Pixel + Conversions API — implemented &amp; verified</span>
+    <span>Stack: React · Next.js · Node.js · MongoDB · Shopify</span>
+    <span><b>GPA 3.88/4</b> — Biomedical Engineering, Mansoura University</span>
+    <span><b>4</b> internships &amp; training programs completed</span>
+    <span><b>ROAS · CTR · CPP</b> — performance tracked, not guessed</span>
+    <span>Meta Pixel + Conversions API — implemented &amp; verified</span>
+    <span>Stack: React · Next.js · Node.js · MongoDB · Shopify</span>
+  </div>
+</div>
+
+<section id="about">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">01 /</span><h2>About</h2></div>
+    <div class="about-grid">
+      <div>
+        <p><strong>I came to the front end through biomedical engineering</strong> — a degree that trained me to take a system apart, find the part that's actually failing, and fix that instead of the symptom. That habit carried straight into web development and, later, into ad accounts.</p>
+        <p>I build responsive, production-ready interfaces with <strong>React, Next.js, and the MERN stack</strong>, and I customize and optimize <strong>Shopify stores</strong> end-to-end — theme sections, Liquid, checkout, and the tracking layer underneath (Meta Pixel, Conversions API).</p>
+        <p>On the marketing side, I manage <strong>Meta and TikTok campaigns</strong> for live stores, reading ROAS and CTR the way a developer reads a stack trace — as a diagnosis, not a headline number.</p>
+      </div>
+      <div class="about-card">
+        <div class="row"><span>Location</span><span>Cairo, Egypt</span></div>
+        <div class="row"><span>Focus</span><span>Front-end + E-commerce</span></div>
+        <div class="row"><span>Currently</span><span>Media Buying Intern, Kojar Network</span></div>
+        <div class="row"><span>Languages</span><span>Arabic (native), English</span></div>
+        <div class="row"><span>Email</span><span>yassersoltan64@gmail.com</span></div>
+        <div class="row"><span>Phone</span><span>+20 109 670 0398</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="experience">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">02 /</span><h2>Experience</h2></div>
+    <p class="sec-sub">A running tab of where I've worked and what I actually did there.</p>
+    <div class="receipt">
+      <div class="receipt-head">
+        <div class="r-title">WORK HISTORY RECEIPT</div>
+        <div class="r-sub">*** ITEMIZED · 2024 – PRESENT ***</div>
+      </div>
+
+      <div class="r-item">
+        <div class="r-row"><span class="r-role">Media Buying Intern</span><span class="r-date">02/2026 – Present</span></div>
+        <div class="r-co">Kojar Network · Cairo, Egypt</div>
+        <ul>
+          <li>Manage Shopify stores and optimize Meta &amp; TikTok ad campaigns</li>
+          <li>Use ROAS, CTR, Meta Pixel and Conversions API to improve performance</li>
+        </ul>
+      </div>
+
+      <div class="r-item">
+        <div class="r-row"><span class="r-role">Full-Stack Development Intern</span><span class="r-date">09/2025 – 10/2025</span></div>
+        <div class="r-co">Fixed Solutions · Cairo, Egypt</div>
+        <ul>
+          <li>Applied the full MERN stack (MongoDB, Express, React, Node) and Docker fundamentals</li>
+          <li>Completed structured training modules and practical coding tasks</li>
+        </ul>
+      </div>
+
+      <div class="r-item">
+        <div class="r-row"><span class="r-role">Full-Stack Development Trainee</span><span class="r-date">02/2025 – 07/2025</span></div>
+        <div class="r-co">ITI · Mansoura, Egypt</div>
+        <ul>
+          <li>In-depth training designing scalable web apps with MongoDB, Express, React and Node</li>
+          <li>Covered both front-end and back-end technologies</li>
+        </ul>
+      </div>
+
+      <div class="r-item">
+        <div class="r-row"><span class="r-role">Front-End Development Trainee</span><span class="r-date">10/2024 – 12/2024</span></div>
+        <div class="r-co">Career 180 · Cairo, Egypt</div>
+        <ul>
+          <li>Mastered components, state management, routing and API integration with React</li>
+          <li>Built modern, responsive web applications</li>
+        </ul>
+      </div>
+
+      <div class="receipt-foot"><span>TOTAL EXPERIENCE</span><span>4 ROLES / 18+ MONTHS</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">03 /</span><h2>Projects</h2></div>
+    <p class="sec-sub">Live stores and full-stack builds — some shipped for real clients, some built to prove out a stack.</p>
+    <div class="proj-grid">
+
+      <div class="proj-card">
+        <div class="proj-tagrow"><span class="proj-sku">SKU-001 · LIVE STORE</span><span class="proj-badge live">LIVE</span></div>
+        <h3>Barbie Original Makeup</h3>
+        <p>Live Shopify storefront (Kalles theme) built and customized for a makeup retailer — home layout, collections, lookbook sections and cart flow.</p>
+        <div class="stack-row">
+          <span class="stack-chip">Shopify / Liquid</span>
+          <span class="stack-chip">Kalles Theme</span>
+          <span class="stack-chip">Ajax Cart</span>
+        </div>
+        <a class="proj-link" href="https://barbie-original-makeup.com/" target="_blank" rel="noopener">Visit store ↗</a>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-tagrow"><span class="proj-sku">SKU-002 · LIVE STORE</span><span class="proj-badge live">LIVE</span></div>
+        <h3>Byyrose — E-Commerce Store</h3>
+        <p>Custom Shopify store for women's fashion — modified theme sections and integrated direct-response marketing tools to lift engagement.</p>
+        <div class="stack-row">
+          <span class="stack-chip">Shopify / Liquid</span>
+          <span class="stack-chip">E-commerce Analytics</span>
+        </div>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-tagrow"><span class="proj-sku">SKU-003 · SAAS</span><span class="proj-badge">BUILD</span></div>
+        <h3>Gahezlak — Restaurant SaaS</h3>
+        <p>QR-code menu platform with OCR scanning, real-time order tracking, role-based staff management, integrated payments and AI dietary filters.</p>
+        <div class="stack-row">
+          <span class="stack-chip">React / TypeScript</span>
+          <span class="stack-chip">Node.js / MongoDB</span>
+          <span class="stack-chip">OpenAI (OCR)</span>
+        </div>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-tagrow"><span class="proj-sku">SKU-004 · FULL-STACK</span><span class="proj-badge">BUILD</span></div>
+        <h3>Amazona</h3>
+        <p>Full-stack e-commerce platform — auth, persistent cart, reviews, secure checkout, plus an admin dashboard for products, users, orders and analytics.</p>
+        <div class="stack-row">
+          <span class="stack-chip">Next.js 15 / TypeScript</span>
+          <span class="stack-chip">MongoDB / Mongoose</span>
+        </div>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-tagrow"><span class="proj-sku">SKU-005 · APP</span><span class="proj-badge">BUILD</span></div>
+        <h3>Car Rental System</h3>
+        <p>Responsive car rental platform with JSON Server integration, dark mode toggle, interactive Chart.js dashboards and toast notifications.</p>
+        <div class="stack-row">
+          <span class="stack-chip">JavaScript (ES6)</span>
+          <span class="stack-chip">Bootstrap</span>
+          <span class="stack-chip">Chart.js</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">04 /</span><h2>Skills</h2></div>
+    <div class="skill-groups">
+      <div class="skill-group">
+        <h4>Frontend &amp; E-commerce</h4>
+        <div class="chip-row">
+          <span class="chip">HTML</span><span class="chip">CSS</span><span class="chip">JavaScript</span>
+          <span class="chip">TypeScript</span><span class="chip">React</span><span class="chip">Next.js</span>
+          <span class="chip">Shopify</span><span class="chip">Liquid</span><span class="chip">Bootstrap</span><span class="chip">Tailwind</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <h4>Backend &amp; Tools</h4>
+        <div class="chip-row">
+          <span class="chip">Node.js</span><span class="chip">Express</span><span class="chip">MongoDB</span>
+          <span class="chip">MySQL</span><span class="chip">Git</span><span class="chip">GitHub</span><span class="chip">Docker</span>
+          <span class="chip">C</span><span class="chip">Python</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <h4>Business &amp; Marketing</h4>
+        <div class="chip-row">
+          <span class="chip">Shopify Store Mgmt</span><span class="chip">E-commerce Ops</span>
+          <span class="chip">Website Optimization</span><span class="chip">Analytics &amp; Reporting</span>
+          <span class="chip">Media Buying</span><span class="chip">Leadership</span><span class="chip">Presentations</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact" style="border-bottom:none;">
+  <div class="wrap">
+    <div class="checkout">
+      <div>
+        <h2>Let's build something.</h2>
+        <p>Whether it's a Shopify store that needs a real front-end and real tracking, or a full-stack build from zero — I'm open to freelance work and full-time roles.</p>
+        <div class="hero-actions" style="margin-top:28px;">
+          <a class="btn btn-primary" href="mailto:yassersoltan64@gmail.com">Email me →</a>
+        </div>
+      </div>
+      <div class="contact-list">
+        <div class="row"><span>Email</span><a href="mailto:yassersoltan64@gmail.com">yassersoltan64@gmail.com</a></div>
+        <div class="row"><span>Phone</span><a href="tel:+201096700398">+20 109 670 0398</a></div>
+        <div class="row"><span>Location</span><span>Cairo, Egypt</span></div>
+        <div class="row"><span>LinkedIn</span><a href="#" title="Add your LinkedIn URL here">linkedin.com/in/yasser-sultan</a></div>
+        <div class="row"><span>GitHub</span><a href="#" title="Add your GitHub URL here">github.com/yasser-sultan</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>© 2026 Yasser Sultan — Front-End Developer &amp; E-Commerce Growth</footer>
+
+</body>
+</html>
